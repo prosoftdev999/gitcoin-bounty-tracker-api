@@ -60,19 +60,16 @@ def test_search_filter_pagination_and_stats(client, auth_headers):
         json=create_payload("React dashboard", 700, "won"),
         headers=auth_headers,
     )
-
     response = client.get(
         "/bounties?search=Python&min_reward=100&max_reward=500",
         headers=auth_headers,
     )
     assert response.status_code == 200
     assert response.json()["meta"]["total"] == 1
-
     stats = client.get("/bounties/stats", headers=auth_headers)
     assert stats.status_code == 200
     assert stats.json()["total_bounties"] == 2
     assert stats.json()["won_reward_usd"] == 700
-
 
 def test_csv_export(client, auth_headers):
     client.post(
@@ -85,13 +82,11 @@ def test_csv_export(client, auth_headers):
     assert "text/csv" in response.headers["content-type"]
     assert "Build Web3 analytics API" in response.text
 
-
 def test_past_deadline_is_rejected(client, auth_headers):
     payload = create_payload()
     payload["deadline"] = (
         datetime.now(timezone.utc) - timedelta(days=1)
     ).isoformat()
-
     response = client.post(
         "/bounties",
         json=payload,
