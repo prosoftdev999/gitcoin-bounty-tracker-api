@@ -27,7 +27,6 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(bounties.router)
 
-
 @app.get("/")
 def root():
     return {
@@ -36,7 +35,6 @@ def root():
         "docs": "/docs",
         "health": "/health",
     }
-
 
 @app.get("/health")
 def health():
